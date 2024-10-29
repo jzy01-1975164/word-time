@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>全球时钟</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1e1e2f;
+            color: #f0f0f0;
+        }
+        h1 {
+            margin-bottom: 20px;
+            font-size: 2em;
+            color: #ffd700;
+        }
+        .clock-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            width: 90%;
+            max-width: 1000px;
+        }
+        .clock-container {
+            text-align: center;
+            font-size: 1.2em;
+            background-color: #282c34;
+            border-radius: 12px;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3);
+            transition: transform 0.2s;
+        }
+        .clock-container:hover {
+            transform: scale(1.05);
+            background-color: #333842;
+        }
+        h2 {
+            margin-bottom: 10px;
+            font-size: 1.2em;
+            color: #ffd700;
+        }
+        .time-display {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #00d4ff;
+        }
+    </style>
+</head>
+<body>
+    <h1>全球时钟</h1>
+
+    <div class="clock-grid">
+        <div class="clock-container">
+            <h2>当地时间</h2>
+            <div id="local-time" class="time-display">加载中...</div>
+        </div>
+        <div class="clock-container">
+            <h2>西雅图时间</h2>
+            <div id="seattle-time" class="time-display">加载中...</div>
+        </div>
+        <div class="clock-container">
+            <h2>纽约时间</h2>
+            <div id="new-york-time" class="time-display">加载中...</div>
+        </div>
+        <div class="clock-container">
+            <h2>北京时间</h2>
+            <div id="beijing-time" class="time-display">加载中...</div>
+        </div>
+        <div class="clock-container">
+            <h2>东京时间</h2>
+            <div id="tokyo-time" class="time-display">加载中...</div>
+        </div>
+        <div class="clock-container">
+            <h2>伦敦时间</h2>
+            <div id="london-time" class="time-display">加载中...</div>
+        </div>
+    </div>
+
+    <script>
+        function updateClocks() {
+            // 本地时间
+            const localTime = new Date();
+            document.getElementById("local-time").textContent = localTime.toLocaleTimeString();
+
+            // 西雅图时间
+            const seattleTime = new Date(localTime.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
+            document.getElementById("seattle-time").textContent = seattleTime.toLocaleTimeString();
+
+            // 纽约时间
+            const newYorkTime = new Date(localTime.toLocaleString("en-US", { timeZone: "America/New_York" }));
+            document.getElementById("new-york-time").textContent = newYorkTime.toLocaleTimeString();
+
+            // 北京时间
+            const beijingTime = new Date(localTime.toLocaleString("en-US", { timeZone: "Asia/Shanghai" }));
+            document.getElementById("beijing-time").textContent = beijingTime.toLocaleTimeString();
+
+            // 东京时间
+            const tokyoTime = new Date(localTime.toLocaleString("en-US", { timeZone: "Asia/Tokyo" }));
+            document.getElementById("tokyo-time").textContent = tokyoTime.toLocaleTimeString();
+
+            // 伦敦时间
+            const londonTime = new Date(localTime.toLocaleString("en-US", { timeZone: "Europe/London" }));
+            document.getElementById("london-time").textContent = londonTime.toLocaleTimeString();
+        }
+
+        setInterval(updateClocks, 1000);
+        updateClocks(); // 初次加载
+    </script>
+</body>
+</html>
