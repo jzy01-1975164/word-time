@@ -11,21 +11,23 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             background-color: #1e1e2f;
             color: #f0f0f0;
+            padding: 10px;
+            box-sizing: border-box;
         }
         h1 {
             margin-bottom: 20px;
             font-size: 2em;
             color: #ffd700;
+            text-align: center;
         }
         .clock-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            width: 90%;
+            gap: 15px;
+            width: 100%;
             max-width: 1000px;
         }
         .clock-container {
@@ -42,7 +44,7 @@
             background-color: #333842;
         }
         h2 {
-            margin-bottom: 10px;
+            margin-bottom: 8px;
             font-size: 1.2em;
             color: #ffd700;
         }
@@ -56,7 +58,7 @@
 <body>
     <h1>全球时钟</h1>
 
-    <div class="clock-grid">
+    <div class="clock-grid" id="clock-grid">
         <div class="clock-container">
             <h2>当地时间</h2>
             <div id="local-time" class="time-display">加载中...</div>
@@ -84,34 +86,48 @@
     </div>
 
     <script>
+        // 检测设备类型并调整布局
+        function adjustLayoutForDevice() {
+            const isMobile = /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth < 600;
+            const clockGrid = document.getElementById("clock-grid");
+
+            if (isMobile) {
+                document.querySelector('h1').style.fontSize = '1.5em';
+                clockGrid.style.gridTemplateColumns = "1fr"; // 手机设备，单列布局
+            } else {
+                document.querySelector('h1').style.fontSize = '2em';
+                clockGrid.style.gridTemplateColumns = "repeat(auto-fit, minmax(200px, 1fr))"; // 桌面设备，多列布局
+            }
+        }
+
+        // 更新时钟时间
         function updateClocks() {
-            // 本地时间
             const localTime = new Date();
             document.getElementById("local-time").textContent = localTime.toLocaleTimeString();
 
-            // 西雅图时间
             const seattleTime = new Date(localTime.toLocaleString("en-US", { timeZone: "America/Los_Angeles" }));
             document.getElementById("seattle-time").textContent = seattleTime.toLocaleTimeString();
 
-            // 纽约时间
             const newYorkTime = new Date(localTime.toLocaleString("en-US", { timeZone: "America/New_York" }));
             document.getElementById("new-york-time").textContent = newYorkTime.toLocaleTimeString();
 
-            // 北京时间
             const beijingTime = new Date(localTime.toLocaleString("en-US", { timeZone: "Asia/Shanghai" }));
             document.getElementById("beijing-time").textContent = beijingTime.toLocaleTimeString();
 
-            // 东京时间
             const tokyoTime = new Date(localTime.toLocaleString("en-US", { timeZone: "Asia/Tokyo" }));
             document.getElementById("tokyo-time").textContent = tokyoTime.toLocaleTimeString();
 
-            // 伦敦时间
             const londonTime = new Date(localTime.toLocaleString("en-US", { timeZone: "Europe/London" }));
             document.getElementById("london-time").textContent = londonTime.toLocaleTimeString();
         }
 
+        // 初始化布局并设置自动更新时间
+        adjustLayoutForDevice();
         setInterval(updateClocks, 1000);
         updateClocks(); // 初次加载
+
+        // 监听窗口大小变化，以适应屏幕
+        window.addEventListener("resize", adjustLayoutForDevice);
     </script>
 </body>
 </html>
